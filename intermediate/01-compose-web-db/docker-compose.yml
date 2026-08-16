@@ -1,0 +1,25 @@
+# Compose file version is no longer required on modern Docker.
+# Service names become DNS names on the default network Compose creates.
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Hostname `db` matches the service name below.
+      DATABASE_URL: postgres://app:appsecret@db:5432/appdb
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: appsecret
+      POSTGRES_DB: appdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

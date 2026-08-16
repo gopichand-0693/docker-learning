@@ -1,0 +1,60 @@
+# Shared definition. Local `docker compose up` uses this file.
+# Production adds docker-compose.prod.yml on top (see README).
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      REDIS_URL: redis://cache:6379/0
+    depends_on:
+      cache:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  cache:
+    image: redis:7-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+
+  # Optional. Only starts with: docker compose --profile dev up
+  redis-ui:
+    image: rediscommander/redis-commander:latest
+    profiles: ["dev"]
+    environment:
+      REDIS_HOSTS: local:cache:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      cache:
+        condition: service_healthy

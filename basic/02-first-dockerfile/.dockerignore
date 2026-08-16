@@ -1,0 +1,8 @@
+# Files listed here are not sent to the Docker daemon during `docker build`.
+# Smaller context = faster builds. Never copy secrets or junk into an image.
+.git
+.gitignore
+README.md
+__pycache__
+*.pyc
+.DS_Store

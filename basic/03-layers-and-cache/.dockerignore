@@ -1,0 +1,7 @@
+README.md
+Dockerfile.slow
+Dockerfile.fast
+__pycache__
+*.pyc
+.DS_Store
+.git

@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8002:8000"
+    env_file:
+      - .env
+    environment:
+      # Inline values override env_file when both set the same key.
+      APP_MESSAGE: "hello from docker-compose.yml (overrides .env)"

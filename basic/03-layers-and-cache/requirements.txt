@@ -1,0 +1,2 @@
+# Tiny on purpose. The point is the *order* of COPY, not the library.
+six==1.16.0

@@ -1,0 +1,26 @@
+# Overlay: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# Closes the API from the host. Put a proxy in front in real deployments.
+
+services:
+  api:
+    ports: !reset []
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  cache:
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+volumes:
+  redisdata:

@@ -1,0 +1,9 @@
+FROM python:3.12-slim
+WORKDIR /app
+
+# BAD: any edit to app.py invalidates this layer AND every layer after it,
+# including pip install. You wait for pip on every code change.
+COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["python", "app.py"]

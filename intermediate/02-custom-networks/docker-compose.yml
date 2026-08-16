@@ -1,0 +1,24 @@
+services:
+  ping:
+    build: .
+    command: python ping.py
+    ports:
+      - "8001:8000"
+    environment:
+      PONG_URL: http://pong:8000/
+    networks:
+      - frontend
+      - backend
+
+  pong:
+    build: .
+    command: python pong.py
+    # No ports: section. pong is not published to your Mac.
+    # Only containers on `backend` can reach it.
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+    internal: true

@@ -1,0 +1,6 @@
+README.md
+Dockerfile.single
+__pycache__
+*.pyc
+.DS_Store
+.git
