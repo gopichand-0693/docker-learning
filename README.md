@@ -50,4 +50,6 @@ Start here: [`basic/`](basic/README.md)
 When this path is done, related courses (separate repos) with the same shape:
 
 - **kubernetes-learning** — schedule the images you just learned to build
+- **nosql/** — Redis (cache, streams) and MongoDB (documents)
+- **sql/** — MySQL, Snowflake, Hive
 - **terraform-learning** — create the cloud around them (GCP)

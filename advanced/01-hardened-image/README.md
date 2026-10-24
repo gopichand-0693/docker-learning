@@ -1,12 +1,12 @@
 # 01 — A hardened image
 
-The Flask dev server and `USER root` are fine for learning. They are not fine for anything you expose.
+The FastAPI / uvicorn `--reload` workflow and `USER root` are fine for learning. They are not fine for anything you expose.
 
 This image:
 
 - installs deps in a throwaway **builder** stage
 - runs as UID **1000**, not root
-- uses **gunicorn**
+- uses **uvicorn** with workers
 - declares a **HEALTHCHECK** against `/health`
 
 ## Build and run
@@ -50,7 +50,7 @@ docker inspect --format='{{json .State.Health}}' hardened | python3 -m json.tool
 | Piece | If you skip it |
 |---|---|
 | Non-root `USER` | A breakout in the app is already root in the container |
-| gunicorn | Flask's server is single-process and not for production |
+| uvicorn workers | `--reload` is a single-process dev loop, not for production |
 | `HEALTHCHECK` | Orchestrators cannot tell "process up" from "app hung" |
 | Multi-stage | Build tools and pip cache ride along into prod |
 | `PYTHONUNBUFFERED=1` | Logs sit in a buffer and you debug blind |

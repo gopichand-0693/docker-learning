@@ -1,9 +1,9 @@
 import os
 
-from flask import Flask, jsonify
 import psycopg2
+from fastapi import FastAPI
 
-app = Flask(__name__)
+app = FastAPI()
 DATABASE_URL = os.environ["DATABASE_URL"]
 
 
@@ -25,13 +25,11 @@ def index():
         conn.commit()
     finally:
         conn.close()
-    return jsonify(
-        {
-            "via": "nginx -> api -> postgres",
-            "visits": count,
-            "last_visit_id": visit_id,
-        }
-    )
+    return {
+        "via": "nginx -> api -> postgres",
+        "visits": count,
+        "last_visit_id": visit_id,
+    }
 
 
 @app.get("/health")
@@ -43,4 +41,4 @@ def health():
             cur.fetchone()
     finally:
         conn.close()
-    return jsonify({"status": "ok"})
+    return {"status": "ok"}

@@ -1,6 +1,6 @@
 # 02 — Reverse proxy stack
 
-The browser should not talk to Flask or Postgres. It talks to **nginx**. nginx talks to **api**. api talks to **db**.
+The browser should not talk to FastAPI or Postgres. It talks to **nginx**. nginx talks to **api**. api talks to **db**.
 
 ```text
 localhost:8080  -->  nginx  -->  api:8000  -->  db:5432

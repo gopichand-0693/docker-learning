@@ -1,10 +1,11 @@
 import os
 import time
 
-from flask import Flask, jsonify
 import psycopg2
+import uvicorn
+from fastapi import FastAPI
 
-app = Flask(__name__)
+app = FastAPI()
 DATABASE_URL = os.environ["DATABASE_URL"]
 
 
@@ -41,19 +42,17 @@ def index():
         conn.commit()
     finally:
         conn.close()
-    return jsonify(
-        {
-            "message": "Flask talked to Postgres over the Compose network",
-            "visits": count,
-            "last_visit_id": visit_id,
-            "postgres": version,
-        }
-    )
+    return {
+        "message": "FastAPI talked to Postgres over the Compose network",
+        "visits": count,
+        "last_visit_id": visit_id,
+        "postgres": version,
+    }
 
 
 @app.get("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return {"status": "ok"}
 
 
 if __name__ == "__main__":
@@ -70,4 +69,4 @@ if __name__ == "__main__":
         )
     conn.commit()
     conn.close()
-    app.run(host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

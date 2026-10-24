@@ -1,20 +1,18 @@
 import os
 
-from flask import Flask, jsonify
+from fastapi import FastAPI
 
-app = Flask(__name__)
+app = FastAPI()
 
 
 @app.get("/")
 def index():
-    return jsonify(
-        {
-            "message": "running as a non-root process behind gunicorn",
-            "user": os.getuid(),
-        }
-    )
+    return {
+        "message": "running as a non-root process behind uvicorn",
+        "user": os.getuid(),
+    }
 
 
 @app.get("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return {"status": "ok"}

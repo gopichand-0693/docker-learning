@@ -2,7 +2,7 @@
 
 Typing `docker run` twice, with matching networks and env vars, gets old. **Compose** is a YAML file that starts the whole stack.
 
-This lesson: a Flask API that writes visit counts into Postgres. Flask reaches Postgres at hostname `db` — the **service name**.
+This lesson: a FastAPI service that writes visit counts into Postgres. FastAPI reaches Postgres at hostname `db` — the **service name**.
 
 ## Start
 
